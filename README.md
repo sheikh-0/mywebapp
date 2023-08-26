@@ -2,11 +2,17 @@
 
 Project includes a simple Python Gunicorn based web application that is containerized, shipped to ECR and exposed via ECS/Cloudformation. The ECR repo, ECS cluster and auxillaries (VPC, igw ELB etc) are created via Terraform/Cloudformation. The CI/CD pipeline is run by CircleCI.
 
+To trigger the pipeline, first authorize access to your Github account in CircleCI and then clone this project:
+```
+git clone https://github.com/sheikh-0/mywebapp.git
+```
+Then create a branch and edit it, after that use `git add . && git commit -am "my edits" && git push` to trigger the build/deploy in CircleCI (after infrastructure has been successfully applied via Terraform in the step below).
+
 ## Prerequisites
 ### Set up required AWS resources
 Builds of this project rely on AWS resources to be present in order to succeed. For convenience, the prerequisite AWS resources may be created using the terraform scripts procided in the `terraform_setup` directory.
 1. Ensure [terraform](https://www.terraform.io/) is installed on your system.
-2. Edit `terraform_setup/terraform.tfvars` to fill in the necessary variable values (an Amazon account with sufficient privileges to create resources like an IAM account, VPC, EC2 instances, Elastic Load Balancer, etc is required). (It is not advisable to commit this file to a public repository after it has been populated with your AWS credentials)
+2. Edit `terraform_setup/terraform.tfvars` to fill in the necessary variable values (an Amazon account with sufficient privileges to create resources like an IAM account, VPC, EC2 instances, Elastic Load Balancer, etc is required). (NOTE: It is a capital offence to commit this file to a public repository after it has been populated with your AWS credentials)
 3. Use terraform to create the AWS resources
     ```
     cd terraform_setup
@@ -30,7 +36,7 @@ The following [environment variables](https://circleci.com/docs/2.0/env-vars/#se
 | `AWS_ACCOUNT_ID`               | AWS account id. This information is required for deployment.                                   |
 | `AWS_RESOURCE_NAME_PREFIX`     | Prefix that some of the required AWS resources are assumed to have in their names. The value should correspond to the `aws_resource_prefix` variable value in `terraform_setup/terraform.tfvars`. 
 
-# Python_webapp
+# Python_webapp - you can test it locally by following the steps below.
 
 A Pure Python Web Application Without using any FrameWork.
 
