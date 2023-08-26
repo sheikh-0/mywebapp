@@ -13,6 +13,7 @@ workflows:
           tag: "${CIRCLE_SHA1}"
           context: global
       - aws-ecs/deploy-service-update:
+          context: global
           requires:
             - aws-ecr/build_and_push_image
           aws-region: ${AWS_DEFAULT_REGION}
