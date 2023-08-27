@@ -1,6 +1,6 @@
 ## PAUL SEIFER Interview Assignment project README.md
 
-Project includes a simple Python Gunicorn based web application that is containerized, shipped to ECR and exposed via ECS/Cloudformation. The ECR repo, ECS cluster and auxillaries (VPC, igw ELB etc) are created via Terraform/Cloudformation. The CI/CD pipeline is run by CircleCI.
+Project includes a simple web page that is containerized with nginx, shipped to ECR and exposed via ECS/Cloudformation. The ECR repo, ECS cluster and auxillaries (VPC, igw ELB etc) are created via Terraform/Cloudformation. The CI/CD pipeline is run by CircleCI.
 
 To trigger the pipeline, first authorize access to your Github account in CircleCI and then clone this project:
 ```
@@ -36,55 +36,26 @@ The following [environment variables](https://circleci.com/docs/2.0/env-vars/#se
 | `AWS_ACCOUNT_ID`               | AWS account id. This information is required for deployment.                                   |
 | `AWS_RESOURCE_NAME_PREFIX`     | Prefix that some of the required AWS resources are assumed to have in their names. The value should correspond to the `aws_resource_prefix` variable value in `terraform_setup/terraform.tfvars`. 
 
-# Python_webapp - you can test it locally by following the steps below.
+### Nginx served web page code:
 
-A Pure Python Web Application Without using any FrameWork.
-
-
-## Installation and Setup
-
-1. install python 3.x
-2. install requirements
-`python -m pip install -r requirements.txt`
-OR
-`pip install -r requirements.txt`
-3. if this did not worked than try `python -m pip install gunicorn`
-4. run gunicorn server:
-`gunicorn server:app --reload`
-5. open the browser and go to the url which will apper
-```bash
-$ gunicorn server:app --reload
-[2020-11-19 13:14:49 +0530] [14209] [INFO] Starting gunicorn 20.0.4
-[2020-11-19 13:14:49 +0530] [14209] [INFO] Listening at: http://127.0.0.1:8000 (14209)
-[2020-11-19 13:14:49 +0530] [14209] [INFO] Using worker: sync
-[2020-11-19 13:14:49 +0530] [14212] [INFO] Booting worker with pid: 14212
-```
-
-## Templates
+## Templates:
 
 Put your templates/ html files in `templates` directory.
 
-## Views
+index.html:
 
-Put your views/ functions in `views.py` file
-
-
-### App
-
-Create a gunicorn web app using following function->
-
-```python
-def app(environ, start_response):
-    #data = "Hello World!"
-    data = views.home(environ)
-    data = data.encode("utf-8")
-    start_response(
-        f"200 OK", [
-            #("Content-Type", "text/plain"),
-            ("Content-Type", "text/html"),
-            ("Content-Length", str(len(data)))
-        ]
-    )
-    return iter([data])
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This is Pauls assignment web page</title>
+</head>
+<body>
+    <h1>Hello {name}</h1>
+    <h3>Have a great day!</h3>
+</body>
+</html>
 ```
 
