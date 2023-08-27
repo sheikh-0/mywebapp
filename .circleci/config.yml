@@ -13,6 +13,14 @@ workflows:
           region: ${AWS_DEFAULT_REGION}
           tag: "${CIRCLE_SHA1}"
           context: global
+          post-steps:
+            - run:
+                name: Test image
+                context: global
+                command: |
+                  docker run -d -p 8080:8080 --name built-image "${AWS_RESOURCE_NAME_PREFIX}"
+                  sleep 10
+                  docker run --network container:built-image appropriate/curl --retry 10 --retry-connrefused http://localhost:8000 | grep "nginx"
       - aws-ecs/deploy-service-update:
           context: global
           requires:
